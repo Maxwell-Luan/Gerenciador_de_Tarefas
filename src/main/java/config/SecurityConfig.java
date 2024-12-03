@@ -10,12 +10,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Permitir acesso a endpoints de autenticação
+        http.csrf().disable()  // Desabilita CSRF globalmente
+            .authorizeRequests(auth -> auth
+                .requestMatchers("/api/auth/register").permitAll() // Permite a rota de registro sem autenticação
                 .anyRequest().authenticated() // Requer autenticação para qualquer outro endpoint
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt()); // Configuração para JWT
+            );
 
         return http.build();
     }
